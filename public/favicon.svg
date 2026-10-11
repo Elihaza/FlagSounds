@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <clipPath id="rounded">
+      <rect x="4" y="4" width="24" height="24" rx="7"/>
+    </clipPath>
+  </defs>
+  <g transform="rotate(-8 16 16)">
+    <g clip-path="url(#rounded)">
+      <rect x="4" y="4" width="8" height="24" fill="#3159df"/>
+      <rect x="12" y="4" width="8" height="24" fill="#fff"/>
+      <rect x="20" y="4" width="8" height="24" fill="#f04c50"/>
+    </g>
+  </g>
+</svg>
