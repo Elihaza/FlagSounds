@@ -1,0 +1,125 @@
+<section class="player-card" aria-labelledby="player-title">
+  <div class="player-heading">
+    <div>
+      <p class="section-label">Flag player</p>
+      <h2 id="player-title">{{ country().name }}</h2>
+      <p class="country-detail">Country code <span aria-hidden="true">·</span> {{ country().code }}</p>
+    </div>
+    <div class="direction-control">
+      <span class="direction-label">Scan direction</span>
+      <div class="direction-toggle" role="group" aria-label="Scan direction">
+        <button
+          type="button"
+          [class.is-active]="scanDirection() === 'horizontal'"
+          [attr.aria-pressed]="scanDirection() === 'horizontal'"
+          (click)="setScanDirection('horizontal')"
+        >
+          Horizontal
+        </button>
+        <button
+          type="button"
+          [class.is-active]="scanDirection() === 'vertical'"
+          [attr.aria-pressed]="scanDirection() === 'vertical'"
+          (click)="setScanDirection('vertical')"
+        >
+          Vertical
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flag-stage">
+    <div class="flag-layout" [class.is-vertical]="scanDirection() === 'vertical'">
+      <div
+        class="playhead-track"
+        [class.is-vertical]="scanDirection() === 'vertical'"
+        role="slider"
+        [attr.aria-orientation]="scanDirection()"
+        [attr.aria-label]="'Flag playback position, ' + scanDirection() + ' scan'"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        [attr.aria-valuenow]="(progress() * 100).toFixed(0)"
+        [attr.aria-valuetext]="(progress() * 100).toFixed(0) + '%'"
+        tabindex="0"
+        (pointerdown)="seekFromPointer($event)"
+        (pointermove)="seekFromPointer($event)"
+        (pointerup)="finishPointerSeek($event)"
+        (pointercancel)="finishPointerSeek($event)"
+        (keydown)="seekWithKeyboard($event)"
+      >
+        <span
+          class="playhead"
+          [style.left.%]="scanDirection() === 'horizontal' ? progress() * 100 : null"
+          [style.top.%]="scanDirection() === 'vertical' ? progress() * 100 : null"
+        ></span>
+      </div>
+      <img
+        class="flag"
+        [src]="'/3x2/' + country().code + '.svg'"
+        [alt]="'Flag of ' + country().name"
+        (load)="loadFlag($event)"
+        (error)="handleFlagError()"
+      />
+    </div>
+  </div>
+
+  <div class="color-readout" aria-label="Colors under playhead">
+    @if (sampledColors().length) {
+      <span class="color-readout-label">Colors at playhead</span>
+      <div class="color-swatches" aria-live="polite">
+        @for (color of sampledColors(); track color.hex) {
+          <span class="color-item" [title]="color.hex + ' · ' + color.pixelCount + ' pixels'">
+            <span class="color-swatch" [style.backgroundColor]="color.hex" aria-hidden="true"></span>
+            <code>{{ color.hex }} · {{ color.frequency }} Hz</code>
+          </span>
+        }
+      </div>
+    } @else if (colorReadError(); as error) {
+      <span class="color-error" role="status">{{ error }}</span>
+    } @else {
+      <span>Reading flag color…</span>
+    }
+  </div>
+
+  @if (audioError(); as error) {
+    <p class="color-error audio-error" role="status">{{ error }}</p>
+  }
+
+  <div class="media-controls" aria-label="Flag playback controls">
+    <button
+      class="media-button reset-button"
+      type="button"
+      aria-label="Go to beginning"
+      title="Go to beginning"
+      (click)="goToBeginning()"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 5v14M19 6l-9 6 9 6z"></path>
+      </svg>
+    </button>
+    <button
+      class="media-button"
+      type="button"
+      aria-label="Play"
+      title="Play"
+      [disabled]="isPlaying()"
+      (click)="play()"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m8 5 12 7-12 7z"></path>
+      </svg>
+    </button>
+    <button
+      class="media-button"
+      type="button"
+      aria-label="Pause"
+      title="Pause"
+      [disabled]="!isPlaying() && !isManualPreview()"
+      (click)="pause()"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M8 5v14M16 5v14"></path>
+      </svg>
+    </button>
+  </div>
+</section>

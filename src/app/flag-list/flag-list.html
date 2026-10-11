@@ -1,0 +1,44 @@
+<section class="flag-picker" aria-labelledby="flag-picker-title">
+  <div class="picker-heading">
+    <div>
+      <p class="section-label">Find your colors</p>
+      <h2 id="flag-picker-title">Choose a flag</h2>
+    </div>
+    <span class="flag-count">{{ filteredCountries().length }} flags</span>
+  </div>
+
+  <label class="search-box">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="10.8" cy="10.8" r="6.3"></circle>
+      <path d="m15.5 15.5 4.2 4.2"></path>
+    </svg>
+    <span class="visually-hidden">Search countries or country codes</span>
+    <input
+      type="search"
+      placeholder="Search countries..."
+      [value]="searchTerm()"
+      (input)="updateSearch($event)"
+    />
+  </label>
+
+  <div class="flag-grid" aria-label="Available flags">
+    @for (country of filteredCountries(); track country.code) {
+      <button
+        class="country-card"
+        type="button"
+        [class.is-selected]="selectedCode() === country.code"
+        [attr.aria-pressed]="selectedCode() === country.code"
+        (click)="selectCountry(country)"
+      >
+        <img class="country-flag" [src]="'3x2/' + country.code + '.svg'" alt="" />
+        <span class="country-info">
+          <span class="country-name">{{ country.name }}</span>
+          <span class="country-code">{{ country.code }}</span>
+        </span>
+        <span class="selected-check" aria-hidden="true">✓</span>
+      </button>
+    } @empty {
+      <p class="empty-state">No flags found. Try another country name or code.</p>
+    }
+  </div>
+</section>

@@ -1,0 +1,45 @@
+<main class="page-shell">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Flag Notes home">
+      <span class="brand-mark" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <span>flag notes</span>
+    </a>
+    <span class="header-note">A little experiment in color and sound</span>
+    <button
+      class="theme-toggle"
+      type="button"
+      [attr.aria-pressed]="isDarkMode()"
+      [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
+      (click)="toggleTheme()"
+    >
+      <span class="theme-switch" aria-hidden="true"><span></span></span>
+      <span>Dark mode</span>
+    </button>
+  </header>
+
+  <section class="intro" aria-labelledby="page-title">
+    <p class="eyebrow">A new way to see the world</p>
+    <h1 id="page-title">Every flag has<br />a rhythm.</h1>
+    <p class="intro-copy">
+      Pick a flag, follow its colors, and hear the world in a different way.
+    </p>
+  </section>
+
+  <app-flag-player [country]="selectedCountry()" />
+  <app-flag-list
+    [selectedCode]="selectedCountry().code"
+    (countrySelected)="selectCountry($event)"
+  />
+
+  <footer class="page-footer">
+    <span>ONE FLAG AT A TIME</span>
+    <span class="footer-dot" aria-hidden="true"></span>
+    <span>MADE FOR CURIOUS EARS</span>
+  </footer>
+</main>
+
+<router-outlet />
