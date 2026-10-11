@@ -159,6 +159,27 @@ h1 {
   background: #f04c50;
 }
 
+.github-link {
+  display: inline-flex;
+  color: var(--muted);
+  transition: color 150ms ease;
+}
+
+.github-link:hover {
+  color: var(--ink);
+}
+
+.github-link:focus-visible {
+  border-radius: 4px;
+  outline: 3px solid var(--blue-outline);
+  outline-offset: 3px;
+}
+
+.github-link svg {
+  width: 18px;
+  height: 18px;
+}
+
 @media (max-width: 600px) {
   .page-shell {
     width: min(100% - 2rem, 1080px);

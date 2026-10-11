@@ -18,6 +18,16 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
+  it('should link to the project repository from the footer', () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const link = compiled.querySelector<HTMLAnchorElement>('.github-link');
+    expect(link?.getAttribute('href')).toBe('https://github.com/Elihaza/FlagSounds');
+    expect(link?.getAttribute('aria-label')).toBe('View FlagSounds on GitHub');
+  });
+
   it('should render the flag player and scan direction', async () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
