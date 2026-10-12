@@ -221,7 +221,7 @@ describe('App', () => {
     const colors = extractLineColors(new Uint8ClampedArray(pixelData));
 
     expect(colors.map(({ hex }) => hex)).toEqual(['#ffffff', '#d80027']);
-    expect(colors.map(({ frequency }) => frequency)).toEqual([600, 400]);
+    expect(colors.map(({ frequency }) => frequency)).toEqual([300, 200]);
   });
 
   it('should extract all colors across a vertical scan row', () => {
@@ -241,13 +241,13 @@ describe('App', () => {
     expect(colors.map(({ hex }) => hex)).toEqual(['#0055a4', '#ffffff', '#ef4135']);
   });
 
-  it('should map flag hues into the 400–800 Hz octave', () => {
-    expect(colorToFrequency('#d80027')).toBe(400);
-    expect(colorToFrequency('#00ff00')).toBe(578);
-    expect(colorToFrequency('#0000ff')).toBe(756);
-    expect(colorToFrequency('#ff00ff')).toBe(800);
-    expect(colorToFrequency('#ffffff')).toBe(600);
-    expect(colorToFrequency('#000000')).toBe(600);
+  it('should map flag hues into the 200–400 Hz octave', () => {
+    expect(colorToFrequency('#d80027')).toBe(200);
+    expect(colorToFrequency('#00ff00')).toBe(289);
+    expect(colorToFrequency('#0000ff')).toBe(378);
+    expect(colorToFrequency('#ff00ff')).toBe(400);
+    expect(colorToFrequency('#ffffff')).toBe(300);
+    expect(colorToFrequency('#000000')).toBe(300);
   });
 
   it('should reject malformed RGB colors', () => {

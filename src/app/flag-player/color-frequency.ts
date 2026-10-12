@@ -1,8 +1,8 @@
-const MIN_FREQUENCY_HZ = 400;
-const MAX_FREQUENCY_HZ = 800;
+const MIN_FREQUENCY_HZ = 200;
+const MAX_FREQUENCY_HZ = 400;
 const MAX_SPECTRAL_HUE_DEGREES = 270;
 const RED_HUE_WRAP_START = 330;
-const ACHROMATIC_FREQUENCY_HZ = 600;
+const ACHROMATIC_FREQUENCY_HZ = 300;
 
 export function colorToFrequency(hex: string): number {
   const match = /^#?([0-9a-f]{6})$/i.exec(hex);
