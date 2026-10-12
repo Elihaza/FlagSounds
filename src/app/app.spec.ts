@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { App } from './app';
 import { extractLineColors } from './flag-player/color-sampling';
 import { colorToFrequency } from './flag-player/color-frequency';
@@ -33,7 +34,10 @@ describe('App', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Every flag has');
+    expect(compiled.querySelector('h1')).toBeNull();
+    expect(compiled.querySelector('.workspace')?.children.length).toBe(2);
+    expect(compiled.querySelector('#flag-picker-title')?.textContent).toBe('Choose a flag');
+    expect(compiled.querySelector<HTMLButtonElement>('.random-flag-button')?.disabled).toBe(false);
     expect(compiled.querySelector<HTMLImageElement>('.flag')?.alt).toBe('Flag of France');
     expect(compiled.querySelector<HTMLButtonElement>('.direction-toggle button')?.textContent).toContain('Horizontal');
     expect(compiled.querySelector<HTMLButtonElement>('.direction-toggle button')?.getAttribute('aria-pressed')).toBe('true');
@@ -56,6 +60,35 @@ describe('App', () => {
     expect(compiled.querySelector('#player-title')?.textContent).toBe('Italy');
     expect(compiled.querySelector<HTMLImageElement>('.flag')?.getAttribute('src')).toBe('/3x2/IT.svg');
     expect(italyCard?.getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('should select a random flag and update the player', async () => {
+    const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0);
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const randomButton = compiled.querySelector<HTMLButtonElement>('.random-flag-button');
+    expect(randomButton).toBeTruthy();
+    if (!randomButton) {
+      throw new Error('Random flag button was not rendered');
+    }
+
+    randomButton.click();
+    fixture.detectChanges();
+    const randomCallCount = randomSpy.mock.calls.length;
+    randomSpy.mockRestore();
+
+    const selectedCard = compiled.querySelector<HTMLButtonElement>('.country-card[aria-pressed="true"]');
+    expect(randomCallCount).toBeGreaterThan(0);
+    expect(selectedCard).toBeTruthy();
+    expect(compiled.querySelector('#player-title')?.textContent?.trim()).toBe(
+      selectedCard?.querySelector('.country-name')?.textContent?.trim(),
+    );
+    expect(compiled.querySelector<HTMLImageElement>('.flag')?.getAttribute('src')).toBe(
+      `/${selectedCard?.querySelector('img')?.getAttribute('src')}`,
+    );
   });
 
   it('should filter the flag cards by country name', async () => {
@@ -89,12 +122,29 @@ describe('App', () => {
       throw new Error('Theme toggle was not rendered');
     }
 
+    expect(document.documentElement.dataset['theme']).toBe('dark');
+    expect(toggle.getAttribute('aria-pressed')).toBe('true');
+    expect(toggle.querySelector('svg path')?.getAttribute('d')).toContain('20.5 14.2');
+
     toggle.click();
     fixture.detectChanges();
 
-    expect(document.documentElement.dataset['theme']).toBe('dark');
-    expect(localStorage.getItem('flag-notes-theme')).toBe('dark');
-    expect(toggle.getAttribute('aria-pressed')).toBe('true');
+    expect(document.documentElement.dataset['theme']).toBe('light');
+    expect(localStorage.getItem('flag-notes-theme')).toBe('light');
+    expect(toggle.getAttribute('aria-pressed')).toBe('false');
+    expect(toggle.querySelector('svg circle')).toBeTruthy();
+  });
+
+  it('should restore a saved light theme', () => {
+    localStorage.setItem('flag-notes-theme', 'light');
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const toggle = compiled.querySelector<HTMLButtonElement>('.theme-toggle');
+    expect(document.documentElement.dataset['theme']).toBe('light');
+    expect(toggle?.getAttribute('aria-pressed')).toBe('false');
+    expect(toggle?.querySelector('svg circle')).toBeTruthy();
   });
 
   it('should provide play, pause, and return-to-beginning controls', async () => {

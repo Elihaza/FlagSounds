@@ -1,14 +1,13 @@
-<main class="page-shell">
+<div class="page-shell">
   <header class="site-header">
-    <a class="brand" href="/" aria-label="Flag Notes home">
+    <a class="brand" href="/" aria-label="Flags Sounds home">
       <span class="brand-mark" aria-hidden="true">
         <span></span>
         <span></span>
         <span></span>
       </span>
-      <span>flag notes</span>
+      <span class="brand-label">Flags Sounds</span>
     </a>
-    <span class="header-note">A little experiment in color and sound</span>
     <button
       class="theme-toggle"
       type="button"
@@ -16,44 +15,45 @@
       [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
       (click)="toggleTheme()"
     >
-      <span class="theme-switch" aria-hidden="true"><span></span></span>
-      <span>Dark mode</span>
+      @if (isDarkMode()) {
+        <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z" />
+        </svg>
+      } @else {
+        <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+        </svg>
+      }
     </button>
   </header>
 
-  <section class="intro" aria-labelledby="page-title">
-    <p class="eyebrow">A new way to see the world</p>
-    <h1 id="page-title">Every flag has<br />a rhythm.</h1>
-    <p class="intro-copy">
-      Pick a flag, follow its colors, and hear the world in a different way.
-    </p>
-  </section>
+  <main class="main-content">
+    <div class="workspace">
+      <app-flag-player [country]="selectedCountry()" />
+      <app-flag-list
+        [selectedCode]="selectedCountry().code"
+        (countrySelected)="selectCountry($event)"
+      />
+    </div>
 
-  <app-flag-player [country]="selectedCountry()" />
-  <app-flag-list
-    [selectedCode]="selectedCountry().code"
-    (countrySelected)="selectCountry($event)"
-  />
-
-  <footer class="page-footer">
-    <span>ONE FLAG AT A TIME</span>
-    <span class="footer-dot" aria-hidden="true"></span>
-    <span>MADE FOR CURIOUS EARS</span>
-    <a
-      class="github-link"
-      href="https://github.com/Elihaza/FlagSounds"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="View FlagSounds on GitHub"
-    >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path
-          fill="currentColor"
-          d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.08c-3.1.67-3.75-1.32-3.75-1.32-.5-1.28-1.24-1.62-1.24-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 .1.75 2.08 3.2 1.45.1-.71.4-1.2.7-1.48-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.06 1.15a10.6 10.6 0 0 1 5.56 0c2.12-1.45 3.06-1.15 3.06-1.15.61 1.54.23 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.29-2.61 5.23-5.1 5.51.4.35.76 1.03.76 2.08V22c0 .29.2.63.77.52A11.1 11.1 0 0 0 12 .9Z"
-        />
-      </svg>
-    </a>
-  </footer>
-</main>
+    <footer class="page-footer">
+      <a
+        class="github-link"
+        href="https://github.com/Elihaza/FlagSounds"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="View FlagSounds on GitHub"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.08c-3.1.67-3.75-1.32-3.75-1.32-.5-1.28-1.24-1.62-1.24-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 .1.75 2.08 3.2 1.45.1-.71.4-1.2.7-1.48-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.06 1.15a10.6 10.6 0 0 1 5.56 0c2.12-1.45 3.06-1.15 3.06-1.15.61 1.54.23 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.29-2.61 5.23-5.1 5.51.4.35.76 1.03.76 2.08V22c0 .29.2.63.77.52A11.1 11.1 0 0 0 12 .9Z"
+          />
+        </svg>
+      </a>
+    </footer>
+  </main>
+</div>
 
 <router-outlet />

@@ -53,4 +53,9 @@ export class FlagList {
   protected selectCountry(country: FlagCountry): void {
     this.countrySelected.emit(country);
   }
+
+  protected selectRandomCountry(): void {
+    const randomIndex = Math.floor(Math.random() * this.flagCountries.length);
+    this.countrySelected.emit(this.flagCountries[randomIndex]);
+  }
 }
