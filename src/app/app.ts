@@ -12,7 +12,7 @@ import { FlagPlayer } from './flag-player/flag-player';
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly isDarkMode = signal(false);
+  protected readonly isDarkMode = signal(true);
   protected readonly selectedCountry = signal<FlagCountry>({
     code: 'FR',
     name: 'France',
@@ -27,8 +27,7 @@ export class App {
     }
 
     const savedTheme = window.localStorage.getItem('flag-notes-theme');
-    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
-    this.setDarkMode(savedTheme === 'dark' || (savedTheme === null && prefersDark));
+    this.setDarkMode(savedTheme !== 'light');
   }
 
   protected selectCountry(country: FlagCountry): void {

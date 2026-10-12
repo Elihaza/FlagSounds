@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>FlagsSounds</title>
+  <title>Flags Sounds</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    try {
+      document.documentElement.dataset.theme =
+        localStorage.getItem('flag-notes-theme') === 'light' ? 'light' : 'dark';
+    } catch {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  </script>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>

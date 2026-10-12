@@ -80,32 +80,15 @@
   outline-offset: 3px;
 }
 
-.theme-switch {
-  width: 34px;
-  height: 20px;
-  display: inline-flex;
-  align-items: center;
-  padding: 3px;
-  border-radius: 999px;
-  background: #d9dce4;
-  transition: background 150ms ease;
-}
-
-.theme-switch > span {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  transition: transform 150ms ease;
-}
-
-.theme-toggle[aria-pressed='true'] .theme-switch {
-  background: var(--blue);
-}
-
-.theme-toggle[aria-pressed='true'] .theme-switch > span {
-  transform: translateX(14px);
+.theme-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
 .intro {
@@ -198,10 +181,6 @@ h1 {
   .theme-toggle {
     gap: 0.35rem;
     font-size: 0;
-  }
-
-  .theme-switch {
-    flex: 0 0 auto;
   }
 
   .intro {

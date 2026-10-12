@@ -89,12 +89,29 @@ describe('App', () => {
       throw new Error('Theme toggle was not rendered');
     }
 
+    expect(document.documentElement.dataset['theme']).toBe('dark');
+    expect(toggle.getAttribute('aria-pressed')).toBe('true');
+    expect(toggle.querySelector('svg path')?.getAttribute('d')).toContain('20.5 14.2');
+
     toggle.click();
     fixture.detectChanges();
 
-    expect(document.documentElement.dataset['theme']).toBe('dark');
-    expect(localStorage.getItem('flag-notes-theme')).toBe('dark');
-    expect(toggle.getAttribute('aria-pressed')).toBe('true');
+    expect(document.documentElement.dataset['theme']).toBe('light');
+    expect(localStorage.getItem('flag-notes-theme')).toBe('light');
+    expect(toggle.getAttribute('aria-pressed')).toBe('false');
+    expect(toggle.querySelector('svg circle')).toBeTruthy();
+  });
+
+  it('should restore a saved light theme', () => {
+    localStorage.setItem('flag-notes-theme', 'light');
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const toggle = compiled.querySelector<HTMLButtonElement>('.theme-toggle');
+    expect(document.documentElement.dataset['theme']).toBe('light');
+    expect(toggle?.getAttribute('aria-pressed')).toBe('false');
+    expect(toggle?.querySelector('svg circle')).toBeTruthy();
   });
 
   it('should provide play, pause, and return-to-beginning controls', async () => {

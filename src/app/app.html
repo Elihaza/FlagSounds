@@ -1,14 +1,13 @@
 <main class="page-shell">
   <header class="site-header">
-    <a class="brand" href="/" aria-label="Flag Notes home">
+    <a class="brand" href="/" aria-label="Flags Sounds home">
       <span class="brand-mark" aria-hidden="true">
         <span></span>
         <span></span>
         <span></span>
       </span>
-      <span>flag notes</span>
+      <span>Flags Sounds</span>
     </a>
-    <span class="header-note">A little experiment in color and sound</span>
     <button
       class="theme-toggle"
       type="button"
@@ -16,17 +15,21 @@
       [attr.aria-label]="isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'"
       (click)="toggleTheme()"
     >
-      <span class="theme-switch" aria-hidden="true"><span></span></span>
-      <span>Dark mode</span>
+      @if (isDarkMode()) {
+        <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z" />
+        </svg>
+      } @else {
+        <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+        </svg>
+      }
     </button>
   </header>
 
   <section class="intro" aria-labelledby="page-title">
-    <p class="eyebrow">A new way to see the world</p>
-    <h1 id="page-title">Every flag has<br />a rhythm.</h1>
-    <p class="intro-copy">
-      Pick a flag, follow its colors, and hear the world in a different way.
-    </p>
+    <h1 id="page-title">Every flag has<br />a sound.</h1>
   </section>
 
   <app-flag-player [country]="selectedCountry()" />
@@ -36,9 +39,6 @@
   />
 
   <footer class="page-footer">
-    <span>ONE FLAG AT A TIME</span>
-    <span class="footer-dot" aria-hidden="true"></span>
-    <span>MADE FOR CURIOUS EARS</span>
     <a
       class="github-link"
       href="https://github.com/Elihaza/FlagSounds"
