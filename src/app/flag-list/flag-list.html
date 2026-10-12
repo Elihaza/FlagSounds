@@ -1,8 +1,17 @@
 <section class="flag-picker" aria-labelledby="flag-picker-title">
   <div class="picker-heading">
-    <div>
-      <h2 id="flag-picker-title">Choose a flag</h2>
-    </div>
+    <button
+      class="random-flag-button"
+      type="button"
+      aria-label="Choose a random flag"
+      title="Choose a random flag"
+      (click)="selectRandomCountry()"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" />
+      </svg>
+    </button>
+    <h2 id="flag-picker-title">Choose a flag</h2>
   </div>
 
   <label class="search-box">
@@ -31,7 +40,6 @@
         <img class="country-flag" [src]="'3x2/' + country.code + '.svg'" alt="" />
         <span class="country-info">
           <span class="country-name">{{ country.name }}</span>
-          <span class="country-code">{{ country.code }}</span>
         </span>
         <span class="selected-check" aria-hidden="true">✓</span>
       </button>

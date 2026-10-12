@@ -1,7 +1,5 @@
 :host {
   display: block;
-  width: min(100%, 760px);
-  margin-inline: auto;
 }
 
 .player-card {
@@ -99,9 +97,10 @@ h2 {
 
 .playhead-track {
   height: 12px;
-  width: 100%;
+  width: var(--flag-width, 80%);
   position: relative;
-  margin: 0 0 0.6rem;
+  justify-self: center;
+  margin: 0;
   border-radius: 999px;
   background: var(--line-strong);
   cursor: grab;
@@ -110,20 +109,6 @@ h2 {
 
 .flag-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.flag-layout.is-vertical {
-  grid-template-columns: 12px minmax(0, 1fr);
-  align-items: stretch;
-  gap: 0.65rem;
-}
-
-.playhead-track.is-vertical {
-  width: 12px;
-  height: auto;
-  min-height: 100%;
-  margin: 0;
 }
 
 .playhead-track:active {
@@ -157,6 +142,8 @@ h2 {
 .flag {
   display: block;
   width: 100%;
+  grid-column: 2;
+  grid-row: 2;
   aspect-ratio: 3 / 2;
   overflow: hidden;
   border-radius: 12px;
